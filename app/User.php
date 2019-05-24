@@ -29,4 +29,9 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     protected $hidden = [
         'password',
     ];
+
+    public function buildings()
+    {
+        return $this->belongsToMany('App\Building','user_building')->withPivot('level');
+    }
 }
