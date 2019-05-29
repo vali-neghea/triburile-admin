@@ -18,7 +18,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
      * @var array
      */
     protected $fillable = [
-        'name','email', 'password','api_token'
+        'name','email', 'password','api_token', 'continent_id'
     ];
 
     /**
@@ -33,5 +33,9 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     public function buildings()
     {
         return $this->belongsToMany('App\Building','user_building')->withPivot('level');
+    }
+
+    public function continent() {
+        return $this->belongsTo('App\Continent');
     }
 }
