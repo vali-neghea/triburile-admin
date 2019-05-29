@@ -26,8 +26,15 @@ $router->post('troop/create','TroopController@store');
 //Buildings - admin
 $router->post('building/create','BuildingController@store');
 
+//Continents
+$router->post('continent/create','ContinentController@store');
+$router->get('continents','ContinentController@index');
+
 //Buildings - client
 $router->get('/buildings/get_user_buildings/{userId}','BuildingController@getBuildings');
 
 //UserBuilding - client
 $router->post('building/build','UserBuildingController@store');
+
+//Users
+$router->get('users/getall','UserController@getAll');
