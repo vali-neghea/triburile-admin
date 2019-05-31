@@ -45,6 +45,8 @@ class ContinentController extends Controller
                     'id' => $user->id,
                     'name' => $user->name,
                     'email' => $user->email,
+                    'x' => $user->x_coordinates,
+                    'y' => $user->y_coordinates,
                 );
             }
         }

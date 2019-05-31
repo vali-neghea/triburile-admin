@@ -25,7 +25,7 @@ class UserController extends Controller
         $email = $request->email;
         $password = $request->password;
 
-        $continent = Continent::where('villages','<=','max_villages')->first();
+        $continent = Continent::whereRaw('continents.villages < continents.max_villages')->first();
 
         if(count($continent) <= 0) {
             $response = [
@@ -38,19 +38,24 @@ class UserController extends Controller
         }
         
         if(count(User::where('email','=', $email)->get()) <= 0) {
+            
+            $lastUser = User::orderBy('id','desc')->first();
+            $lastUserX = $lastUser->x_coordinates;
+            $lastUserY = $lastUser->y_coordinates;
+
             $user = new User();
             
             $user->name = $name;
             $user->email = $email;
             $user->password = Hash::make($password);
             $user->continent_id = $continent->id;
+            $user->x_coordinates = rand($lastUserX + 1,$lastUserX + 5);
+            $user->y_coordinates = rand($lastUserY + 1, $lastUserY + 5);
 
             $user->save();
 
             $continent->villages += 1;
             $continent->save();
-
-
 
             $response = [
                 'user' => $user,
@@ -85,6 +90,8 @@ class UserController extends Controller
             $users[$key]['id'] = $user->id;
             $users[$key]['name'] = $user->name;
             $users[$key]['email'] = $user->email;
+            $users[$key]['x'] = $user->x_coordinates;
+            $users[$key]['y'] = $user->y_coordinates;
         }
 
         return $users;
