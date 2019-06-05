@@ -29,7 +29,7 @@ class UserController extends Controller
 
         $continent = Continent::whereRaw('continents.villages < continents.max_villages')->first();
 
-        if(!$continent->count()) {
+        if(!$continent) {
             $response = [
                 'status' => 200,
                 'message' => 'The map is full.Try on another map or wait for us to create a new one.',
@@ -38,18 +38,23 @@ class UserController extends Controller
 
             return response()->json($response);
         }
-        
-        if(!User::where('email','=', $email)->get()) {
+
+        if(count(User::where('email','=', $email)->get()) <= 0) {
 
             /**
              * get last User details */
             $lastUser = User::orderBy('id','desc')->first();
-            if($lastUser->count()) {
+
+            if($lastUser) {
                 $lastUserX = $lastUser->x_coordinates;
                 $lastUserY = $lastUser->y_coordinates;
+
+                $x_coordinates = rand($lastUserX + 1,$lastUserX + 5);
+                $y_coordinates = rand($lastUserY + 1, $lastUserY + 5);
+
             }else {
-                $lastUserX = 0;
-                $lastUserY = 0;
+                $x_coordinates = 0;
+                $y_coordinates = 0;
             }
 
             /** store new User */
@@ -61,8 +66,6 @@ class UserController extends Controller
             $user->save();
 
             /** create new xOy coordinates for village */
-            $x_coordinates = rand($lastUserX + 1,$lastUserX + 5);
-            $y_coordinates = rand($lastUserY + 1, $lastUserY + 5);
 
             $villageId = $this->villageService->store($user,$continent->id,$x_coordinates,$y_coordinates);
             if($this->villageService->addVillageToUser($user->id,$villageId)){
