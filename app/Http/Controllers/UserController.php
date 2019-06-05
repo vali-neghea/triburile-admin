@@ -29,7 +29,7 @@ class UserController extends Controller
 
         $continent = Continent::whereRaw('continents.villages < continents.max_villages')->first();
 
-        if(count($continent) <= 0) {
+        if(!$continent->count()) {
             $response = [
                 'status' => 200,
                 'message' => 'The map is full.Try on another map or wait for us to create a new one.',
@@ -39,13 +39,18 @@ class UserController extends Controller
             return response()->json($response);
         }
         
-        if(count(User::where('email','=', $email)->get()) <= 0) {
+        if(!User::where('email','=', $email)->get()) {
 
             /**
              * get last User details */
             $lastUser = User::orderBy('id','desc')->first();
-            $lastUserX = $lastUser->x_coordinates;
-            $lastUserY = $lastUser->y_coordinates;
+            if($lastUser) {
+                $lastUserX = $lastUser->x_coordinates;
+                $lastUserY = $lastUser->y_coordinates;
+            }else {
+                $lastUserX = 0;
+                $lastUserY = 0;
+            }
 
             /** store new User */
             $user = new User();

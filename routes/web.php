@@ -15,33 +15,38 @@ $router->get('/', function () use ($router) {
     return $router->app->version();
 });
 
+$router->group(['middleware' => 'updateInfo'], function () use ($router) {
+    $router->post('login', 'AuthController@login');
+
+    //Buildings - client
+    $router->get('/buildings/get_user_buildings/{userId}', 'BuildingController@getBuildings');
+    $router->get('/buildings/upgrade/{userId}/{buildingId}', 'BuildingController@upgrade');
+
+    //Village - client
+    $router->get('village/{userId}', 'VillageController@getVillageById');
+
+    //VillageBuilding - client
+    $router->post('building/build', 'VillageBuildingController@store');
+
+});
+
+
 //Authentification & Register
 $router->post('register', 'UserController@register');
-$router->post('login','AuthController@login');
-$router->post('logout','AuthController@logout');
+$router->post('logout', 'AuthController@logout');
 
 //Troop - admin
-$router->post('troop/create','TroopController@store');
+$router->post('troop/create', 'TroopController@store');
 
 //Buildings - admin
-$router->post('building/create','BuildingController@store');
+$router->post('building/create', 'BuildingController@store');
 
 //Continents - admin
-$router->post('continent/create','ContinentController@store');
-$router->get('continents','ContinentController@index');
+$router->post('continent/create', 'ContinentController@store');
+$router->get('continents', 'ContinentController@index');
 
 //Villages - admin
-$router->get('villages','VillageController@index');
-
-//Buildings - client
-$router->get('/buildings/get_user_buildings/{userId}','BuildingController@getBuildings');
-$router->get('/buildings/upgrade/{userId}/{buildingId}','BuildingController@upgrade');
-
-//Village - client
-$router->get('village/{userId}','VillageController@getVillageById');
-
-//VillageBuilding - client
-$router->post('building/build','VillageBuildingController@store');
+$router->get('villages', 'VillageController@index');
 
 //Users
-$router->get('users/getall','UserController@getAll');
+$router->get('users/getall', 'UserController@getAll');

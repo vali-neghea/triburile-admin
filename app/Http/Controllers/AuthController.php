@@ -35,6 +35,8 @@ class AuthController extends Controller
         $email = $request->input('email');
         $password = $request->input('password');
         $user = User::where('email', $email)->first();
+
+        //update last request
         $this->userService->updateLastRequest($user->id);
 
         if (!$user) {
@@ -44,10 +46,13 @@ class AuthController extends Controller
         }
 
         if ($hasher->check($password, $user->password)) {
+            //create login api token
             $api_token = sha1(time());
             $create_token = User::where('id', $user->id)->update(['api_token' => $api_token]);
+
+            $user->api_token = $create_token;
+
             if ($create_token) {
-                $user->api_token = $api_token;
 
                 $response = array(
                     'status' => 200,
