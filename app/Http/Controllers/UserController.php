@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Continent;
+use App\Services\VillageService;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -10,14 +11,15 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
+    protected $villageService;
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(VillageService $villageService)
     {
-        //
+        $this->villageService = $villageService;
     }
 
     public function register(Request $request) {
@@ -38,30 +40,44 @@ class UserController extends Controller
         }
         
         if(count(User::where('email','=', $email)->get()) <= 0) {
-            
+
+            /**
+             * get last User details */
             $lastUser = User::orderBy('id','desc')->first();
             $lastUserX = $lastUser->x_coordinates;
             $lastUserY = $lastUser->y_coordinates;
 
+            /** store new User */
             $user = new User();
             
             $user->name = $name;
             $user->email = $email;
             $user->password = Hash::make($password);
-            $user->continent_id = $continent->id;
-            $user->x_coordinates = rand($lastUserX + 1,$lastUserX + 5);
-            $user->y_coordinates = rand($lastUserY + 1, $lastUserY + 5);
-
             $user->save();
 
-            $continent->villages += 1;
-            $continent->save();
+            /** create new xOy coordinates for village */
+            $x_coordinates = rand($lastUserX + 1,$lastUserX + 5);
+            $y_coordinates = rand($lastUserY + 1, $lastUserY + 5);
 
-            $response = [
-                'user' => $user,
-                'status' => 200,
-                'success' => 1
-            ];
+            $villageId = $this->villageService->store($user,$continent->id,$x_coordinates,$y_coordinates);
+            if($this->villageService->addVillageToUser($user->id,$villageId)){
+                /** increments continent's number of players */
+                $continent->villages += 1;
+                $continent->save();
+
+                $response = [
+                    'user' => $user,
+                    'village_id' => $villageId,
+                    'status' => 200,
+                    'success' => 1
+                ];
+            }else {
+                $response = [
+                    'status' => 200,
+                    'success' => 0,
+                    'message' => 'Something went wrogn with creating your village'
+                ];
+            }
 
             return response()->json($response);
         }else {

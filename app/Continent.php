@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Continent extends Model
 {
-    public function users() {
-        return $this->hasMany('App\User');
+    public function villages() {
+        return $this->hasMany('App\Village');
     }
 }

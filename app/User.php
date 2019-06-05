@@ -35,7 +35,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         return $this->belongsToMany('App\Building','user_building')->withPivot('level');
     }
 
-    public function continent() {
-        return $this->belongsTo('App\Continent');
+    public function villages() {
+        return $this->hasMany('App\Village');
     }
 }

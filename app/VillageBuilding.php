@@ -10,7 +10,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class UserBuilding extends Model
+class VillageBuilding extends Model
 {
-    protected $table = 'user_building';
+    protected $table = 'village_building';
 }

@@ -2,20 +2,25 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\TestJob;
+use App\Services\UserService;
 use App\User;
+use App\Village;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
+    protected $userService;
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(UserService $userService)
     {
-        //
+        $this->userService = $userService;
     }
 
     /**
@@ -30,41 +35,44 @@ class AuthController extends Controller
         $email = $request->input('email');
         $password = $request->input('password');
         $user = User::where('email', $email)->first();
+        $this->userService->updateLastRequest($user->id);
 
         if (!$user) {
             $res['success'] = false;
             $res['message'] = 'Your email or password incorrect!';
             return response($res);
-        } else {
-            if ($hasher->check($password, $user->password)) {
-                $api_token = sha1(time());
-                $create_token = User::where('id', $user->id)->update(['api_token' => $api_token]);
-                if ($create_token) {
-                    $user->api_token = $api_token;
-                    $res['success'] = true;
-                    $res['message'] = $user;
-                    $response = array(
-                        'status' => 200,
-                        'message' => 'User connected',
-                        'success' => 1,
-                        'user' => $user,
-                    );
-                    return response()->json($response);
-                }
-            } else {
-                $res['success'] = true;
-                $res['message'] = 'You email or password incorrect!';
+        }
 
-                return response($res);
+        if ($hasher->check($password, $user->password)) {
+            $api_token = sha1(time());
+            $create_token = User::where('id', $user->id)->update(['api_token' => $api_token]);
+            if ($create_token) {
+                $user->api_token = $api_token;
+
+                $response = array(
+                    'status' => 200,
+                    'message' => 'User connected',
+                    'success' => 1,
+                    'user' => $user,
+                    'villages' => Village::where('user_id',$user->id)->get(),
+                );
+
+                return response()->json($response);
             }
         }
+
+        $res['success'] = true;
+        $res['message'] = 'You email or password incorrect!';
+
+        return response($res);
     }
 
-    public function logout(Request $request) {
+    public function logout(Request $request)
+    {
         $apiToken = $request->apiToken;
-        $user = User::where('api_token',$apiToken)->first();
+        $user = User::where('api_token', $apiToken)->first();
 
-        if($user->api_token == $apiToken) {
+        if ($user->api_token == $apiToken) {
             $user->api_token = null;
             $user->save();
 
@@ -74,7 +82,7 @@ class AuthController extends Controller
                 'success' => 1
             );
             return response()->json($response);
-        }else {
+        } else {
             $response = array(
                 'status' => 200,
                 'message' => 'The api_token or/and id is wronged',

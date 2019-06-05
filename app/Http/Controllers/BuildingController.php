@@ -73,5 +73,9 @@ class BuildingController extends Controller
         return response()->json($response);
     }
 
-
+    public function upgrade($userId,$buildingId) {
+        dump($userId);
+        dump($buildingId);
+        die('On file '. __FILE__ . 'at line ' . __LINE__);
+    }
 }

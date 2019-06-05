@@ -11,17 +11,17 @@ namespace App\Http\Controllers;
 
 use App\Building;
 use App\Troop;
-use App\UserBuilding;
+use App\VillageBuilding;
 use Illuminate\Http\Request;
 
-class UserBuildingController extends Controller
+class VillageBuildingController extends Controller
 {
     public function store(Request $request) {
-        $userId = $request->user_id;
+        $villageId = $request->village_id;
         $buildingId = $request->building_id;
         $buildingLevel = $request->level;
 
-        $sameBuilding = UserBuilding::where('user_id','=',$userId)
+        $sameBuilding = VillageBuilding::where('village_id','=',$villageId)
                                     ->where('building_id','=',$buildingId)
                                     ->get();
 
@@ -33,21 +33,25 @@ class UserBuildingController extends Controller
 
             return response()->json($response);
         }else {
-            $userBuilding = new UserBuilding();
+            $villageBuilding = new VillageBuilding();
 
-            $userBuilding->user_id = $userId;
-            $userBuilding->building_id = $buildingId;
-            $userBuilding->level = $buildingLevel;
+            $villageBuilding->village_id = $villageId;
+            $villageBuilding->building_id = $buildingId;
+            $villageBuilding->level = $buildingLevel;
 
-            $userBuilding->save();
+            $villageBuilding->save();
 
             $response = array(
                 'status' => 200,
                 'message' => 'Building added with success!',
-                'building' => $userBuilding
+                'building' => $villageBuilding
             );
 
             return response()->json($response);
         }
+    }
+
+    public function upgrade($userId,$buildingId){
+
     }
 }
