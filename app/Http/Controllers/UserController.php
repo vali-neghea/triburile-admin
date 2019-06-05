@@ -44,7 +44,7 @@ class UserController extends Controller
             /**
              * get last User details */
             $lastUser = User::orderBy('id','desc')->first();
-            if($lastUser) {
+            if($lastUser->count()) {
                 $lastUserX = $lastUser->x_coordinates;
                 $lastUserY = $lastUser->y_coordinates;
             }else {
