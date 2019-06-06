@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\ResponseHelper;
+
 class ExampleController extends Controller
 {
     /**
@@ -14,5 +16,7 @@ class ExampleController extends Controller
         //
     }
 
-    //
+    public function test() {
+        return ResponseHelper::responseJson(200,1,'Poti s-o indoi fara s-o inmoi?','');
+    }
 }

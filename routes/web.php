@@ -30,6 +30,9 @@ $router->group(['middleware' => 'updateInfo'], function () use ($router) {
     //VillageBuilding - client
     $router->post('building/build', 'VillageBuildingController@store');
 
+    //Test
+    $router->post('test','ExampleController@test');
+
 });
 
 

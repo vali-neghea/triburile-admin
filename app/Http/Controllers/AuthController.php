@@ -54,7 +54,7 @@ class AuthController extends Controller
             }
         }
 
-        return ResponseHelper::responseJson(200,1,'Your email or password are incorrect','');
+        return ResponseHelper::responseJson(200,false,'Your email or password are incorrect','');
     }
 
     public function logout(Request $request)
