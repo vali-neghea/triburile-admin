@@ -10,6 +10,7 @@ namespace App\Http\Controllers;
 
 
 use App\Building;
+use App\Helpers\ResponseHelper;
 use App\Troop;
 use App\VillageBuilding;
 use Illuminate\Http\Request;
@@ -26,12 +27,8 @@ class VillageBuildingController extends Controller
                                     ->get();
 
         if(count($sameBuilding) > 0) {
-            $response = array(
-                'status' => 200,
-                'message' => 'This building already exists.'
-            );
 
-            return response()->json($response);
+            return ResponseHelper::responseJson(200,0,'This building already exists','');
         }else {
             $villageBuilding = new VillageBuilding();
 
@@ -41,13 +38,7 @@ class VillageBuildingController extends Controller
 
             $villageBuilding->save();
 
-            $response = array(
-                'status' => 200,
-                'message' => 'Building added with success!',
-                'building' => $villageBuilding
-            );
-
-            return response()->json($response);
+            return ResponseHelper::responseJson(200,1,'Building added with success',$villageBuilding);
         }
     }
 

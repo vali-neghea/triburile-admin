@@ -9,6 +9,7 @@
 namespace App\Http\Controllers;
 
 
+use App\Helpers\ResponseHelper;
 use App\Troop;
 use Illuminate\Http\Request;
 
@@ -21,13 +22,8 @@ class TroopController extends Controller
         $similarTroop = Troop::where('name','like',$troopName)->get();
 
         if(count($similarTroop) > 0){
-            $response = array(
-                'status' => 200,
-                'message' => 'A troop already exists with this name or similar',
-                'troop' => $similarTroop
-            );
 
-            return response()->json($response);
+            return ResponseHelper::responseJson(200,1,'A troop already exists with this name or similar',$similarTroop);
         }else {
             $troop = new Troop();
 
@@ -36,13 +32,7 @@ class TroopController extends Controller
 
             $troop->save();
 
-            $response = array(
-                'status' => 200,
-                'message' => 'troop created with success',
-                'troop' => $troop
-            );
-
-            return response()->json($response);
+            return ResponseHelper::responseJson(200,1,'Troop created with success',$troop);
         }
     }
 }

@@ -2,13 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Jobs\TestJob;
+use App\Helpers\ResponseHelper;
 use App\Services\UserService;
 use App\User;
 use App\Village;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
@@ -36,40 +34,27 @@ class AuthController extends Controller
         $password = $request->input('password');
         $user = User::where('email', $email)->first();
 
-        //update last request
-        $this->userService->updateLastRequest($user->id);
-
         if (!$user) {
-            $res['success'] = false;
-            $res['message'] = 'Your email or password incorrect!';
-            return response($res);
+            return ResponseHelper::responseJson(200,false,'Your email or password are incorrect!','');
         }
 
         if ($hasher->check($password, $user->password)) {
             //create login api token
             $api_token = sha1(time());
             $create_token = User::where('id', $user->id)->update(['api_token' => $api_token]);
+            $user->api_token = $api_token;
 
-            $user->api_token = $create_token;
+            $data = array(
+                'user' => $user,
+                'villages' => Village::where('user_id',$user->id)->get()
+            );
 
             if ($create_token) {
-
-                $response = array(
-                    'status' => 200,
-                    'message' => 'User connected',
-                    'success' => 1,
-                    'user' => $user,
-                    'villages' => Village::where('user_id',$user->id)->get(),
-                );
-
-                return response()->json($response);
+                return ResponseHelper::responseJson(200,1,'User connected',$data);
             }
         }
 
-        $res['success'] = true;
-        $res['message'] = 'You email or password incorrect!';
-
-        return response($res);
+        return ResponseHelper::responseJson(200,1,'Your email or password are incorrect','');
     }
 
     public function logout(Request $request)
@@ -81,19 +66,10 @@ class AuthController extends Controller
             $user->api_token = null;
             $user->save();
 
-            $response = array(
-                'status' => 200,
-                'message' => 'User dissconected',
-                'success' => 1
-            );
-            return response()->json($response);
+            return ResponseHelper::responseJson(200,1,'User dissconected','');
         } else {
-            $response = array(
-                'status' => 200,
-                'message' => 'The api_token or/and id is wronged',
-                'success' => 0
-            );
-            return response()->json($response);
+
+            return ResponseHelper::responseJson(200,0,'The api_token or/and id is wronged','');
         }
 
     }

@@ -15,12 +15,14 @@ $router->get('/', function () use ($router) {
     return $router->app->version();
 });
 
+//move inside middleware
+$router->post('login', 'AuthController@login');
+
 $router->group(['middleware' => 'updateInfo'], function () use ($router) {
-    $router->post('login', 'AuthController@login');
 
     //Buildings - client
     $router->get('/buildings/get_user_buildings/{userId}', 'BuildingController@getBuildings');
-    $router->get('/buildings/upgrade/{userId}/{buildingId}', 'BuildingController@upgrade');
+    $router->get('/buildings/upgrade', 'BuildingController@upgrade');
 
     //Village - client
     $router->get('village/{userId}', 'VillageController@getVillageById');

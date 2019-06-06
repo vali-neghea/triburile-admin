@@ -4,6 +4,7 @@
 namespace App\Http\Controllers;
 
 
+use App\Helpers\ResponseHelper;
 use App\Village;
 
 class VillageController extends Controller
@@ -12,25 +13,13 @@ class VillageController extends Controller
         $villages = Village::all();
 
         if ($villages) {
-         $response = [
-             'success' => 1,
-             'status' => 200,
-             'villages' => $villages
-         ];
-
-         return response()->json($response);
+         return ResponseHelper::responseJson(200,1,'List of villages',$villages);
         }
     }
 
     public function getVillageById($id) {
         $village = Village::find($id);
 
-        $response = array(
-            'success' => 1,
-            'status' => 200,
-            'village' => $village
-        );
-
-        return response()->json($response);
+        return ResponseHelper::responseJson(200,1,'Details about 1 village',$village);
     }
 }

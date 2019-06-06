@@ -10,6 +10,7 @@ namespace App\Http\Controllers;
 
 
 use App\Continent;
+use App\Helpers\ResponseHelper;
 use Illuminate\Http\Request;
 
 class ContinentController extends Controller
@@ -23,13 +24,7 @@ class ContinentController extends Controller
 
         $continent->save();
 
-        $response = array(
-            'success' => 1,
-            'message' => 'continent created with success',
-            'continent' => $continent
-        );
-
-        return response()->json($response);
+        return ResponseHelper::responseJson(200,1,'Continent created with success',$continent);
     }
 
     public function index() {
@@ -51,11 +46,6 @@ class ContinentController extends Controller
             }
         }
 
-        $response = array(
-            'success' => 1,
-            'continents' => $continents
-        );
-
-        return response()->json($response);
+        return ResponseHelper::responseJson(200,1,'List of continents',$continents);
     }
 }

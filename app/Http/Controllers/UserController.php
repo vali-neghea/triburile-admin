@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Continent;
+use App\Helpers\ResponseHelper;
 use App\Services\VillageService;
 use App\User;
 use Illuminate\Http\Request;
@@ -30,13 +31,8 @@ class UserController extends Controller
         $continent = Continent::whereRaw('continents.villages < continents.max_villages')->first();
 
         if(!$continent) {
-            $response = [
-                'status' => 200,
-                'message' => 'The map is full.Try on another map or wait for us to create a new one.',
-                'success' => 0
-            ];
 
-            return response()->json($response);
+            return ResponseHelper::responseJson(200,0,'The map is full.Try on another map or wait for us to create a new one.','');
         }
 
         if(count(User::where('email','=', $email)->get()) <= 0) {
@@ -73,29 +69,18 @@ class UserController extends Controller
                 $continent->villages += 1;
                 $continent->save();
 
-                $response = [
-                    'user' => $user,
-                    'village_id' => $villageId,
-                    'status' => 200,
-                    'success' => 1
-                ];
+                $data = array();
+                $data['user'] = $user;
+                $data['villageId'] = $villageId;
+
+                return ResponseHelper::responseJson(200,1,'User registered with success',$data);
             }else {
-                $response = [
-                    'status' => 200,
-                    'success' => 0,
-                    'message' => 'Something went wrogn with creating your village'
-                ];
+
+                return ResponseHelper::responseJson(200,0,'Something went wrogn with creating your village','');
             }
-
-            return response()->json($response);
         }else {
-            $response = [
-                'status' => '200',
-                'success' => 0,
-                'message' => 'This email is already in use.'
-            ];
 
-            return response()->json($response);
+            return ResponseHelper::responseJson(200,0,'This email is already in use.','');
         }
     }
 

@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 
 use App\Services\UserService;
 use App\User;
+use Carbon\Carbon;
 use Closure;
 use phpDocumentor\Reflection\Element;
 
@@ -32,12 +33,16 @@ class UpdateInfoMiddleware
      * @return mixed
      */
     public function handle($request, Closure $next) {
-        if ($request->path() == 'login'){
-            $userId = User::where('email',$request->email)->first()->id;
-        }else {
-            $userId = $request->user_id;
-        }
+        $userToken = $request->user_token;
         
+        $user = User::where('api_token',$userToken)->get()->first();
+
+        $now = Carbon::now();
+        $lastRequest = Carbon::parse($user->last_request);
+        $difference = $now->diffInSeconds($lastRequest);
+
+        $this->userService->updateLastRequest($userToken);
+
         return $next($request);
     }
 }

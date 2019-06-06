@@ -9,7 +9,7 @@ use Carbon\Carbon;
 
 class UserService
 {
-    public function updateLastRequest($userId) {
-        User::where('id',$userId)->update(['last_request' => Carbon::now()]);
+    public function updateLastRequest($userToken) {
+        User::where('api_token',$userToken)->update(['last_request' => Carbon::now()]);
     }
 }
