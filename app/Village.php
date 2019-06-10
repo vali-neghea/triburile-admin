@@ -16,9 +16,9 @@ class Village extends Model
         return $this->belongsTo('App\Continent');
     }
 
-//    public function buildings()
-//    {
-//        return $this->belongsToMany('App\Building','user_building')->withPivot('level');
-//    }
+    public function buildings()
+    {
+        return $this->belongsToMany('App\Building','village_building')->withPivot('level');
+    }
 
 }

@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Building extends Model
 {
-    public function users() {
-        return $this->belongsToMany('App\User');
+    public function villages() {
+        return $this->belongsToMany('App\Village');
     }
 }
