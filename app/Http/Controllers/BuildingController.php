@@ -95,8 +95,7 @@ class BuildingController extends Controller
         $village = Village::where('id',$request->village_id)->first();
         
         $building = Building::where('id',$request->building_id)->first();
-        $entityName = str_replace(' ','_',$building->name);
-        $buildingDetails = DB::table($entityName)->where('level',$buildingVillage->level+1)->first();
+        $buildingDetails = $building->levels->where('level',$buildingVillage->level+1)->first();
 
         if($village->wood >= $buildingDetails->wood_required && $village->clay >= $buildingDetails->clay_required && $village->metal >= $buildingDetails->metal_required) {
             $this->resourcesService->takeOffResources($village,$buildingDetails);

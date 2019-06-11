@@ -35,4 +35,9 @@ class TroopController extends Controller
             return ResponseHelper::responseJson(200,1,'Troop created with success',$troop);
         }
     }
+
+    public function recruit(Request $request) {
+        dump($request);
+        die('On file '. __FILE__ . 'at line ' . __LINE__);
+    }
 }

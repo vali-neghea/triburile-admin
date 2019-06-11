@@ -15,4 +15,8 @@ class Building extends Model
     public function villages() {
         return $this->belongsToMany('App\Village');
     }
+
+    public function levels() {
+        return $this->hasMany('App\BuildingLevels');
+    }
 }

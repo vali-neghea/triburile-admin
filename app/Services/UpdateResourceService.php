@@ -7,6 +7,7 @@ namespace App\Services;
 use App\Building;
 use App\Village;
 use App\VillageProduction;
+use Illuminate\Support\Facades\DB;
 
 class UpdateResourceService
 {
@@ -36,5 +37,17 @@ class UpdateResourceService
         $village->save();
 
         return true;
+    }
+
+    public function updateVillageProduction($villageId,$buildingId,$level) {
+        $villageProduction = VillageProduction::where('village_id',$villageId)->where('building_id',$buildingId)->first();
+        $building = Building::where('id',$buildingId)->first();
+
+        $buildingDetails = $building->levels->where('level',$level)->first();
+        $villageProduction->production_per_hour = $buildingDetails->bonus;
+        $villageProduction->save();
+        
+        return true;
+
     }
 }

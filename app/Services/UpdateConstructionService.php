@@ -4,13 +4,23 @@
 namespace App\Services;
 
 
-use App\Village;
+use App\Building;
 use App\VillageBuilding;
 use App\VillageConstruction;
+use App\VillageProduction;
 use Carbon\Carbon;
 
 class UpdateConstructionService
 {
+    protected $updateResourceService;
+    /**
+     * UpdateConstructionService constructor.
+     */
+    public function __construct(UpdateResourceService $updateResourceService)
+    {
+        $this->updateResourceService = $updateResourceService;
+    }
+
     public function updateConstructions($villages) {
         foreach ($villages as $village) {
             $constructions = VillageConstruction::where('village_id',$village->id)->get();
@@ -18,8 +28,14 @@ class UpdateConstructionService
             foreach ($constructions as $construction) {
                 if(Carbon::now() > $construction->finish_date) {
                     $villageBuilding = VillageBuilding::where('village_id',$village->id)->where('building_id',$construction->building_id)->first();
-                    $villageBuilding->level += 1;
+                    $building = Building::find($villageBuilding->building_id);
+
+                    $villageBuilding->level = 4;
                     $villageBuilding->save();
+
+                    if($building->production) {
+                        $this->updateResourceService->updateVillageProduction($village->id, $building->id,$villageBuilding->level);
+                    }
 
                     $construction->delete();
                 }
