@@ -19,7 +19,7 @@ class VillageController extends Controller
     }
 
     public function getVillageById(Request $request) {
-        $village = Village::find($request->village_id)->first();
+        $village = Village::find($request->village_id);
 
         return ResponseHelper::responseJson(200,1,'Details about village',$village);
     }
