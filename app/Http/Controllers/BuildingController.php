@@ -57,8 +57,9 @@ class BuildingController extends Controller
         }
     }
 
-    public function getBuildings($userId) {
-        $user = User::find($userId);
+    public function getBuildings(Request $request) {
+        die("\n".__FILE__.' '.__LINE__."\n");
+        $user = User::find($request->user_id);
         $buildings = array();
 
         foreach ($user->buildings as $key => $building) {

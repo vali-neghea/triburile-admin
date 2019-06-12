@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 
 use App\Helpers\ResponseHelper;
 use App\Village;
+use Illuminate\Http\Request;
 
 class VillageController extends Controller
 {
@@ -17,9 +18,9 @@ class VillageController extends Controller
         }
     }
 
-    public function getVillageById($id) {
-        $village = Village::find($id);
+    public function getVillageById(Request $request) {
+        $village = Village::find($request->village_id)->first();
 
-        return ResponseHelper::responseJson(200,1,'Details about 1 village',$village);
+        return ResponseHelper::responseJson(200,1,'Details about village',$village);
     }
 }

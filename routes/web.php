@@ -21,11 +21,10 @@ $router->post('login', 'AuthController@login');
 $router->group(['middleware' => 'updateInfo'], function () use ($router) {
 
     //Buildings - client
-    $router->get('/buildings/get_user_buildings/{userId}', 'BuildingController@getBuildings');
     $router->get('/buildings/upgrade', 'BuildingController@upgrade');
 
     //Village - client
-    $router->get('village/{userId}', 'VillageController@getVillageById');
+    $router->get('village-details', 'VillageController@getVillageById');
 
     //VillageBuilding - client
     $router->post('building/build', 'VillageBuildingController@store');
