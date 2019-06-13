@@ -4,23 +4,25 @@ namespace App\Http\Controllers;
 
 use App\Continent;
 use App\Helpers\ResponseHelper;
+use App\Services\BuildingService;
 use App\Services\VillageService;
 use App\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
-    protected $villageService;
+    private $villageService;
+    private $buildingService;
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct(VillageService $villageService)
+    public function __construct(VillageService $villageService, BuildingService $buildingService)
     {
         $this->villageService = $villageService;
+        $this->buildingService = $buildingService;
     }
 
     public function register(Request $request) {
@@ -65,6 +67,7 @@ class UserController extends Controller
 
             $villageId = $this->villageService->store($user,$continent->id,$x_coordinates,$y_coordinates);
             if($this->villageService->addVillageToUser($user->id,$villageId)){
+                $this->buildingService->addDefaultBuildingsToVillage($villageId);
                 /** increments continent's number of players */
                 $continent->villages += 1;
                 $continent->save();

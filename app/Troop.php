@@ -12,5 +12,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Troop extends Model
 {
-
+    public function levels() {
+        return $this->hasMany('App\TroopLevels');
+    }
 }

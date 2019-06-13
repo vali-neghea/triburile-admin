@@ -20,7 +20,6 @@ use App\VillageBuilding;
 use App\VillageConstruction;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class BuildingController extends Controller
 {

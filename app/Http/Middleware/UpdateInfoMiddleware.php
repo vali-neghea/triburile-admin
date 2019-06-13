@@ -6,6 +6,7 @@ namespace App\Http\Middleware;
 use App\Helpers\ResponseHelper;
 use App\Services\UpdateConstructionService;
 use App\Services\UpdateResourceService;
+use App\Services\UpdateTroopsService;
 use App\Services\UserService;
 use App\User;
 use App\VillageConstruction;
@@ -21,16 +22,18 @@ class UpdateInfoMiddleware
     protected $userService;
     protected $updateResourceService;
     protected $updateConstructionService;
+    protected $updateTroopService;
 
     /**
      * UpdateInfoMiddleware constructor.
      * @param $userService
      */
-    public function __construct(UserService $userService, UpdateResourceService $updateResourceService, UpdateConstructionService $updateConstructionService)
+    public function __construct(UserService $userService, UpdateResourceService $updateResourceService, UpdateConstructionService $updateConstructionService, UpdateTroopsService $updateTroopsService)
     {
         $this->userService = $userService;
         $this->updateResourceService = $updateResourceService;
         $this->updateConstructionService = $updateConstructionService;
+        $this->updateTroopService = $updateTroopsService;
     }
 
 
@@ -56,6 +59,7 @@ class UpdateInfoMiddleware
             $this->updateResourceService->updateVillageResource($userVillages,$difference);
         }
         $this->updateConstructionService->updateConstructions($userVillages);
+        $this->updateTroopService->updateVillageTroops($userVillages);
 
 
         $this->userService->updateLastRequest($userToken);
