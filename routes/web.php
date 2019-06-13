@@ -28,6 +28,7 @@ $router->group(['middleware' => 'updateInfo'], function () use ($router) {
 
     //VillageBuilding - client
     $router->post('building/build', 'VillageBuildingController@store');
+    $router->get('village/buildings','BuildingController@getBuildings');
 
     //Trrops - client
     $router->post('troops/recruit','TroopController@recruit');

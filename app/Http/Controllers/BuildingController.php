@@ -57,11 +57,10 @@ class BuildingController extends Controller
     }
 
     public function getBuildings(Request $request) {
-        die("\n".__FILE__.' '.__LINE__."\n");
-        $user = User::find($request->user_id);
+        $village = Village::find($request->village_id);
         $buildings = array();
 
-        foreach ($user->buildings as $key => $building) {
+        foreach ($village->buildings as $key => $building) {
             $buildings[$key] = [
                 'name' => $building->name,
                 'max_level' => $building->max_level,
