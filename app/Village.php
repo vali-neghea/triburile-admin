@@ -8,6 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Village extends Model
 {
+
+    protected $hidden = [
+        'villageTroops'
+    ];
+
     public function user(){
         return $this->belongsTo('App\User');
     }
@@ -25,15 +30,15 @@ class Village extends Model
         return $this->hasMany('App\VillageRecruitment');
     }
 
-    public function troops() {
-        return $this->hasMany('App\VillageTroops');
-    }
-
     public function productions() {
         return $this->hasMany('App\VillageProduction');
     }
 
     public function constructions() {
         return $this->hasMany('App\VillageConstruction');
+    }
+
+    public function villageTroops() {
+        return $this->hasMany('App\VillageTroops');
     }
 }
