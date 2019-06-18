@@ -5,7 +5,7 @@ namespace App\Repositories;
 
 
 use App\Interfaces\VillageRecruitmentInterface;
-use App\VillageRecruitment;
+use App\Models\VillageRecruitment;
 
 class VillageRecruitmentRepository implements VillageRecruitmentInterface
 {

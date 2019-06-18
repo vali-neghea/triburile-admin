@@ -4,8 +4,8 @@
 namespace App\Services;
 
 
-use App\UserVillage;
-use App\Village;
+use App\Models\UserVillage;
+use App\Models\Village;
 
 class VillageService
 {

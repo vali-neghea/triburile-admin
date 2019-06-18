@@ -4,11 +4,9 @@
 namespace App\Services;
 
 
-use App\Building;
-use App\Village;
-use App\VillageProduction;
-use Illuminate\Support\Facades\DB;
-
+use App\Models\Building;
+use App\Models\Village;
+use App\Models\VillageProduction;
 class UpdateResourceService
 {
     public function updateVillageResource($villages,$difference) {

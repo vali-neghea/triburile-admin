@@ -35,6 +35,7 @@ $router->group(['middleware' => 'updateInfo'], function () use ($router) {
 
     //Test
     $router->post('test','ExampleController@test');
+    $router->post('text/index','ExampleController@textIndex');
 
 });
 

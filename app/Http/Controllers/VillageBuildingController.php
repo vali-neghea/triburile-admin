@@ -9,10 +9,8 @@
 namespace App\Http\Controllers;
 
 
-use App\Building;
 use App\Helpers\ResponseHelper;
-use App\Troop;
-use App\VillageBuilding;
+use App\Models\VillageBuilding;
 use Illuminate\Http\Request;
 
 class VillageBuildingController extends Controller

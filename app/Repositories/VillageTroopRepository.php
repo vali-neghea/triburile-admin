@@ -5,7 +5,7 @@ namespace App\Repositories;
 
 
 use App\Interfaces\VillageTroopInterface;
-use App\VillageTroops;
+use App\Models\VillageTroops;
 
 class VillageTroopRepository implements VillageTroopInterface
 {

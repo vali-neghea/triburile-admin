@@ -8,8 +8,7 @@ use App\Services\UpdateConstructionService;
 use App\Services\UpdateResourceService;
 use App\Services\UpdateTroopsService;
 use App\Services\UserService;
-use App\User;
-use App\VillageConstruction;
+use App\Models\User;
 use Carbon\Carbon;
 use Closure;
 

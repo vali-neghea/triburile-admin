@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Auth\Authenticatable;
 use Laravel\Lumen\Auth\Authorizable;
@@ -30,12 +30,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         'password',
     ];
 
-    public function buildings()
-    {
-        return $this->belongsToMany('App\Building','user_building')->withPivot('level');
-    }
-
     public function villages() {
-        return $this->hasMany('App\Village');
+        return $this->hasMany('App\Models\Village');
     }
 }

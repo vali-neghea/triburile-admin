@@ -4,10 +4,9 @@
 namespace App\Services;
 
 
-use App\Building;
-use App\VillageBuilding;
-use App\VillageConstruction;
-use App\VillageProduction;
+use App\Models\Building;
+use App\Models\VillageBuilding;
+use App\Models\VillageConstruction;
 use Carbon\Carbon;
 
 class UpdateConstructionService

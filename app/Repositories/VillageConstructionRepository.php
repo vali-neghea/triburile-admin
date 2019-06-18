@@ -5,7 +5,7 @@ namespace App\Repositories;
 
 
 use App\Interfaces\VillageConstructionInterface;
-use App\VillageConstruction;
+use App\Models\VillageConstruction;
 
 class VillageConstructionRepository implements VillageConstructionInterface
 {

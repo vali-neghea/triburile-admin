@@ -6,11 +6,11 @@
  * Time: 1:05 PM
  */
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class UserVillage extends Model
+class VillageBuilding extends Model
 {
-    protected $table = 'user_village';
+    protected $table = 'village_building';
 }

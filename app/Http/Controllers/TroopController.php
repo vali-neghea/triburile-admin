@@ -12,11 +12,9 @@ namespace App\Http\Controllers;
 use App\Helpers\ResponseHelper;
 use App\Interfaces\VillageRecruitmentInterface;
 use App\Services\UpdateResourceService;
-use App\Troop;
-use App\Village;
-use App\VillageRecruitment;
+use App\Models\Troop;
+use App\Models\Village;
 use Carbon\Carbon;
-use http\Env\Response;
 use Illuminate\Http\Request;
 
 class TroopController extends Controller

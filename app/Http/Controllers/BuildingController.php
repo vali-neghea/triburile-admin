@@ -13,11 +13,11 @@ use App\Building;
 use App\Helpers\ResponseHelper;
 use App\Interfaces\VillageConstructionInterface;
 use App\Services\UpdateResourceService;
-use App\User;
-use App\UserVillage;
-use App\Village;
-use App\VillageBuilding;
-use App\VillageConstruction;
+use App\Models\User;
+use App\Models\UserVillage;
+use App\Models\Village;
+use App\Models\VillageBuilding;
+use App\Models\VillageConstruction;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 

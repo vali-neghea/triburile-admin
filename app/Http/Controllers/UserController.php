@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Continent;
+use App\Models\Continent;
 use App\Helpers\ResponseHelper;
 use App\Services\BuildingService;
 use App\Services\VillageService;
-use App\User;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 

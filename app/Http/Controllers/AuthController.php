@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Helpers\ResponseHelper;
 use App\Services\UserService;
-use App\User;
-use App\Village;
+use App\Models\User;
+use App\Models\Village;
 use Illuminate\Http\Request;
 
 class AuthController extends Controller

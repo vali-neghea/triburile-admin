@@ -5,7 +5,7 @@ namespace App\Repositories;
 
 
 use App\Interfaces\BuildingInterface;
-use App\VillageBuilding;
+use App\Models\VillageBuilding;
 
 class BuildingRepository implements BuildingInterface
 {

@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 
 
 use App\Helpers\ResponseHelper;
-use App\Village;
+use App\Models\Village;
 use Illuminate\Http\Request;
 
 class VillageController extends Controller

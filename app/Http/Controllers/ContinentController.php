@@ -9,7 +9,7 @@
 namespace App\Http\Controllers;
 
 
-use App\Continent;
+use App\Models\Continent;
 use App\Helpers\ResponseHelper;
 use Illuminate\Http\Request;
 

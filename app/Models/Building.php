@@ -6,17 +6,17 @@
  * Time: 1:05 PM
  */
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
 class Building extends Model
 {
     public function villages() {
-        return $this->belongsToMany('App\Village');
+        return $this->belongsToMany('App\Models\Village');
     }
 
     public function levels() {
-        return $this->hasMany('App\BuildingLevels');
+        return $this->hasMany('App\Models\BuildingLevels');
     }
 }
