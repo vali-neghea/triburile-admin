@@ -24,11 +24,13 @@ $router->group(['middleware' => 'updateInfo'], function () use ($router) {
     $router->get('/buildings/upgrade', 'BuildingController@upgrade');
 
     //Village - client
-    $router->get('village-details', 'VillageController@getVillageById');
+    $router->get('village/{userId}/{villageId}', 'VillageController@getVillageById');
 
     //VillageBuilding - client
     $router->post('building/build', 'VillageBuildingController@store');
-    $router->get('village/buildings','BuildingController@getBuildings');
+    $router->get('village/buildings/{villageId}','VillageBuildingController@getBuildings');
+    $router->get('village/buildings/{villageId}/{buildingId}','VillageBuildingController@getBuildingDetails');
+    $router->put('village/buildings/{villageId}/{buildingId}','VillageBuildingController@upgrade');
 
     //Trrops - client
     $router->post('troops/recruit','TroopController@recruit');

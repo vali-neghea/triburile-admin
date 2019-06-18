@@ -5,7 +5,7 @@ namespace App\Repositories;
 
 
 use App\Interfaces\BuildingInterface;
-use App\Models\VillageBuilding;
+use App\Models\VillageBuildings;
 
 class BuildingRepository implements BuildingInterface
 {
@@ -16,7 +16,7 @@ class BuildingRepository implements BuildingInterface
      */
     public function addDefaultBuildings($villageId, $buildingId)
     {
-        $villageBuilding = new VillageBuilding();
+        $villageBuilding = new VillageBuildings();
 
         $villageBuilding->village_id = $villageId;
         $villageBuilding->building_id = $buildingId;

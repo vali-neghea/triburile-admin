@@ -42,7 +42,7 @@ class UpdateInfoMiddleware
      * @return mixed
      */
     public function handle($request, Closure $next) {
-        $userToken = $request->user_token;
+        $userToken = $request->headers->get('Authorization');
         
         $user = User::where('api_token',$userToken)->first();
         if(!$user) {

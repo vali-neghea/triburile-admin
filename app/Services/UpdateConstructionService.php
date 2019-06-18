@@ -5,7 +5,7 @@ namespace App\Services;
 
 
 use App\Models\Building;
-use App\Models\VillageBuilding;
+use App\Models\VillageBuildings;
 use App\Models\VillageConstruction;
 use Carbon\Carbon;
 
@@ -26,7 +26,7 @@ class UpdateConstructionService
 
             foreach ($constructions as $construction) {
                 if(Carbon::now() > $construction->finish_date) {
-                    $villageBuilding = VillageBuilding::where('village_id',$village->id)->where('building_id',$construction->building_id)->first();
+                    $villageBuilding = VillageBuildings::where('village_id',$village->id)->where('building_id',$construction->building_id)->first();
                     $building = Building::find($villageBuilding->building_id);
 
                     $villageBuilding->level = 4;

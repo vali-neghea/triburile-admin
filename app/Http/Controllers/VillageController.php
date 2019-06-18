@@ -18,8 +18,23 @@ class VillageController extends Controller
         }
     }
 
-    public function getVillageById(Request $request) {
+    public function getBuildings(Request $request) {
         $village = Village::find($request->village_id);
+        $buildings = array();
+
+        foreach ($village->buildings as $key => $building) {
+            $buildings[$key] = [
+                'name' => $building->name,
+                'max_level' => $building->max_level,
+                'level' => $building->pivot->level
+            ];
+        }
+
+        return ResponseHelper::responseJson(200,1,'List of buildings',$buildings);
+    }
+
+    public function getVillageById($userId, $villageId) {
+        $village = Village::find($villageId);
         $troops = array();
         
         foreach ($village->villageTroops as $key => $villageTroop) {

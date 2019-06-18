@@ -23,30 +23,36 @@ class UpdateTroopsService
 
 
     public function updateVillageTroops($userVillages) {
-
+        
         foreach ($userVillages as $village) {
-            foreach ($village->recruitments as $recruitment) {
-                $villageTroops = $village->troops->where('troop_id',$recruitment->troop_id)->first();
+            if(count($village->recruitments) > 0) {
+                foreach ($village->recruitments as $recruitment) {
+                    //Check if the recruitment is totally finished or not.Exemple: If 30/30 fighters have been recruited or if only 15/30 have been recruited
+                    if(Carbon::parse($recruitment->finish_date) < Carbon::now()){
+                        $troopsRecruited = $recruitment->number_of_troops;
 
-                //Check if the recruitment is totally finished or not.Exemple: If 30/30 fighters have been recruited or if only 15/30 have been recruited
-                if(Carbon::parse($recruitment->finish_date) < Carbon::now()){
-                    $troopsRecruited = $recruitment->number_of_troops;
+                        $recruitment->delete();
+                    }else {
+                        $totalSeconds = $recruitment->number_of_troops * $recruitment->time_per_troop;
+                        $remainingSeconds = Carbon::now()->diffInSeconds(Carbon::parse($recruitment->finish_date));
+                        $difference = $totalSeconds - $remainingSeconds;
+                        $troopsRecruited = floor($difference / $recruitment->time_per_troop);
 
-                    $recruitment->delete();
-                }else {
-                    $totalSeconds = $recruitment->number_of_troops * $recruitment->time_per_troop;
-                    $remainingSeconds = Carbon::now()->diffInSeconds(Carbon::parse($recruitment->finish_date));
-                    $difference = $totalSeconds - $remainingSeconds;
-                    $troopsRecruited = floor($difference / $recruitment->time_per_troop);
+                        $this->villageRecruitmentRepository->update($recruitment,$troopsRecruited);
+                    }
 
-                    $this->villageRecruitmentRepository->update($recruitment,$troopsRecruited);
-                }
+                    //Check if the village already have at least 1 unit of a type.Yes: update the amount number, Else: create new row
+                    if($village->troops) {
+                        $villageTroops = $village->troops->where('troop_id',$recruitment->troop_id)->first();
+                    }else {
+                        $villageTroops = null;
+                    }
 
-                //Check if the village already have at least 1 unit of a type.Yes: update the amount number, Else: create new row
-                if($villageTroops) {
-                    $this->villageTroopRepository->update($villageTroops,$troopsRecruited);
-                }else {
-                    $this->villageTroopRepository->store($village->id,$recruitment->troop_id,$troopsRecruited);
+                    if($villageTroops) {
+                        $this->villageTroopRepository->update($villageTroops,$troopsRecruited);
+                    }else {
+                        $this->villageTroopRepository->store($village->id,$recruitment->troop_id,$troopsRecruited);
+                    }
                 }
             }
         }

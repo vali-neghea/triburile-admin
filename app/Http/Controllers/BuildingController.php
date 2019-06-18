@@ -9,14 +9,14 @@
 namespace App\Http\Controllers;
 
 
-use App\Building;
+use App\Models\Building;
 use App\Helpers\ResponseHelper;
 use App\Interfaces\VillageConstructionInterface;
 use App\Services\UpdateResourceService;
 use App\Models\User;
 use App\Models\UserVillage;
 use App\Models\Village;
-use App\Models\VillageBuilding;
+use App\Models\VillageBuildings;
 use App\Models\VillageConstruction;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -56,30 +56,15 @@ class BuildingController extends Controller
         }
     }
 
-    public function getBuildings(Request $request) {
-        $village = Village::find($request->village_id);
-        $buildings = array();
-
-        foreach ($village->buildings as $key => $building) {
-            $buildings[$key] = [
-                'name' => $building->name,
-                'max_level' => $building->max_level,
-                'level' => $building->pivot->level
-            ];
-        }
-
-        return ResponseHelper::responseJson(200,1,'List of buildings',$buildings);
-    }
-
     public function upgrade(Request $request) {
-        $user = User::where('api_token',$request->user_token)->first();
+        $user = User::where('api_token',$request->headers->get('Authorization'))->first();
         $userVillage = UserVillage::where('user_id',$user->id)->where('village_id',$request->village_id)->first();
 
         if(!$userVillage) {
             return ResponseHelper::responseJson(404,0,'This village is not yours','');
         }
 
-        $buildingVillage = VillageBuilding::where('village_id',$request->village_id)->where('building_id',$request->building_id)->first();
+        $buildingVillage = VillageBuildings::where('village_id',$request->village_id)->where('building_id',$request->building_id)->first();
 
         if(!$buildingVillage) {
             return ResponseHelper::responseJson(404,0,"You don't have this building in this village",'');

@@ -41,4 +41,8 @@ class Village extends Model
     public function villageTroops() {
         return $this->hasMany('App\Models\VillageTroops');
     }
+
+    public function villageBuildings() {
+        return $this->hasMany('App\Models\VillageBuildings');
+    }
 }

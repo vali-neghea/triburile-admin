@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\Model;
 class Building extends Model
 {
     public function villages() {
-        return $this->belongsToMany('App\Models\Village');
+        return $this->hasMany('App\Models\VillageBuildings');
     }
 
     public function levels() {

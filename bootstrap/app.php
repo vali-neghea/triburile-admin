@@ -87,7 +87,8 @@ $app->register(
     $app->bind('App\Interfaces\VillageConstructionInterface','App\Repositories\VillageConstructionRepository'),
     $app->bind('App\Interfaces\VillageRecruitmentInterface','App\Repositories\VillageRecruitmentRepository'),
     $app->bind('App\Interfaces\VillageTroopInterface','App\Repositories\VillageTroopRepository'),
-    $app->bind('App\Interfaces\BuildingInterface','App\Repositories\BuildingRepository')
+    $app->bind('App\Interfaces\BuildingInterface','App\Repositories\BuildingRepository'),
+    $app->bind('App\Interfaces\VillageBuildingInterface','App\Repositories\VillageBuildingRepository')
 );
 // $app->register(App\Providers\EventServiceProvider::class);
 
