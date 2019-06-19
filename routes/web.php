@@ -35,6 +35,9 @@ $router->group(['middleware' => 'updateInfo'], function () use ($router) {
     //Trrops - client
     $router->post('troops/recruit','TroopController@recruit');
 
+    //Support
+    $router->post('support/send','SupportController@send');
+
     //Test
     $router->post('test','ExampleController@test');
     $router->post('text/index','ExampleController@textIndex');

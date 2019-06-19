@@ -41,17 +41,12 @@ class UpdateTroopsService
                         $this->villageRecruitmentRepository->update($recruitment,$troopsRecruited);
                     }
 
-                    //Check if the village already have at least 1 unit of a type.Yes: update the amount number, Else: create new row
-                    if($village->troops) {
-                        $villageTroops = $village->troops->where('troop_id',$recruitment->troop_id)->first();
-                    }else {
-                        $villageTroops = null;
-                    }
+                    $villageTroops = $village->villageTroops->where('troop_id',$recruitment->troop_id)->first();
 
                     if($villageTroops) {
                         $this->villageTroopRepository->update($villageTroops,$troopsRecruited);
                     }else {
-                        $this->villageTroopRepository->store($village->id,$recruitment->troop_id,$troopsRecruited);
+                        $this->villageTroopRepository->store($village->id,$recruitment->troop_id,$troopsRecruited,1);
                     }
                 }
             }

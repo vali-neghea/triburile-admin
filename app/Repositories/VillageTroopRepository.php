@@ -27,13 +27,14 @@ class VillageTroopRepository implements VillageTroopInterface
      * @param $amount
      * @return mixed
      */
-    public function store($villageId, $troopId, $amount)
+    public function store($villageId, $troopId, $amount,$ownerShip)
     {
         $villageTroops = new VillageTroops();
 
         $villageTroops->village_id = $villageId;
         $villageTroops->troop_id = $troopId;
         $villageTroops->amount = $amount;
+        $villageTroops->ownerShip = $ownerShip;
 
         $villageTroops->save();
     }
